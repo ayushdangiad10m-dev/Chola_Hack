@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#12261f" />
+    <title>Nirmaan — Better work. Better homes.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="improvements.css" />
+    <link rel="stylesheet" href="language.css" />
+    <link rel="stylesheet" href="crew-builder.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  </head>
+  <body>
+    <div class="language-modal" id="languageModal" role="dialog" aria-modal="true" aria-labelledby="languageTitle">
+      <div class="language-card">
+        <span class="language-globe">अ / A</span>
+        <p class="language-overline">WELCOME TO NIRMAAN</p>
+        <h1 id="languageTitle">Choose your language<br /><em>अपनी भाषा चुनें</em></h1>
+        <p class="language-copy">You can change this later. / आप इसे बाद में बदल सकते हैं।</p>
+        <div class="language-options">
+          <button data-language="en"><b>English</b><small>Continue in English</small><span>→</span></button>
+          <button data-language="hi"><b>हिन्दी</b><small>हिन्दी में आगे बढ़ें</small><span>→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <header>
+      <a class="brand" href="#top" aria-label="Nirmaan home"><span class="brand-mark">n</span>nirmaan</a>
+      <nav aria-label="Primary navigation"><a href="#find">Find pros</a><a href="#designs">Home designs</a><a href="#pro">For professionals</a><a href="#safety">Safety</a><a class="contact-link" href="tel:+919000000000">Contact: +91 90000 00000</a></nav>
+      <div class="header-actions"><button class="language-switch" id="languageSwitch" aria-label="Change language">हिन्दी</button><button class="text-button" id="loginBtn">Sign in</button><div id="userProfileContainer"></div><button class="button button-dark" data-open="post">Post a job <span>↗</span></button></div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="pulse"></span> 324 verified pros nearby</div>
+          <h1>What can we help<br /><em>you build today?</em></h1>
+          <p>Choose your path. Hire trusted hands for your home, or find dignified work and grow your skills with Nirmaan.</p>
+          <div class="path-picker" aria-label="Choose what you want to do">
+            <button class="path-card path-hire" data-open="post"><span class="path-icon">⌂</span><span><b>Hire a labourer</b><small>Find nearby, verified professionals</small></span><strong>→</strong></button>
+            <button class="path-card path-work" data-open="work"><span class="path-icon">✦</span><span><b>Find a job</b><small>Join, train and earn more</small></span><strong>→</strong></button>
+          </div>
+          <a href="#special-homes" class="watch-link hero-design-link"><span class="play">▶</span> Explore affordable special homes</a>
+          <div class="proof"><div class="avatars"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=100&q=80" alt=""/><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80" alt=""/><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" alt=""/></div><span><strong>12,000+</strong> homeowners building with confidence</span></div>
+        </div>
+        <div class="hero-visual" aria-label="Live nearby professionals map">
+          <div class="map-grid"></div><div class="road r1"></div><div class="road r2"></div><div class="road r3"></div>
+          <div class="map-label l1">Indiranagar</div><div class="map-label l2">Domlur</div><div class="map-label l3">Koramangala</div>
+          <div class="you-pin"><span></span><small>You</small></div>
+          <button class="map-worker w1" data-worker="arjun"><img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&w=140&q=80" alt="Arjun, carpenter"/><i class="rank diamond">◆</i></button>
+          <button class="map-worker w2" data-worker="meera"><img src="https://images.unsplash.com/photo-1615109398623-88346a601842?auto=format&fit=crop&w=140&q=80" alt="Meera, painter"/><i class="rank gold">◆</i></button>
+          <button class="map-worker w3" data-worker="sameer"><img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&w=140&q=80" alt="Sameer, mason"/><i class="rank pro">✦</i></button>
+          <div class="live-card"><div class="live-top"><span class="live-dot"></span> LIVE MATCHING <span class="timer">02:14</span></div><div class="match-row"><img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&w=120&q=80" alt=""/><div><b>Arjun K.</b><span>Master carpenter · 1.2 km away</span></div><strong>4.9 <span class="star">★</span></strong></div><div class="match-bar"><span></span></div><small>Matching skills, availability & location...</small></div>
+          <button class="map-open-btn" id="openFullMap" style="position:absolute;bottom:10px;right:8%;z-index:2;background:#12261f;color:#d6f35d;border:0;padding:10px 16px;border-radius:8px;font:600 12px var(--sans);cursor:pointer;display:flex;align-items:center;gap:7px;box-shadow:0 4px 12px #0004">📍 View all pros on map <span>→</span></button>
+        </div>
+      </section>
+
+      <section class="motto-strip"><span class="motto-mark">✦</span><blockquote>“Dignity for every hand. Confidence in every home.”</blockquote><p>Our promise: meaningful work for skilled people, and dependable craftsmanship for every family.</p></section>
+
+      <section class="special-homes" id="special-homes">
+        <div class="special-intro"><span class="kicker">SPECIAL HOMES FOR YOU</span><h2>Good design should not<br /><em>be only for expensive homes.</em></h2><p>Choose a house style you love. See the outside, rooms and special spaces — then get a clear build estimate and a team that knows how to execute it.</p><a href="#designs" class="arrow-link">Browse all home ideas <span>→</span></a></div>
+        <div class="home-scroller">
+          <button class="home-tile home-main" data-home="The Courtyard Home"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85" alt="Courtyard home exterior"/><span><small>FROM ₹24L</small><b>The Courtyard Home</b><em>View spaces →</em></span></button>
+          <button class="home-tile" data-home="The Warm Minimal"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=700&q=85" alt="Warm minimal living room"/><span><small>FROM ₹18L</small><b>Warm Minimal</b></span></button>
+          <button class="home-tile" data-home="The Green Terrace"><img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=700&q=85" alt="Modern home with garden"/><span><small>FROM ₹28L</small><b>The Green Terrace</b></span></button>
+        </div>
+      </section>
+
+      <section class="find section" id="find"><div class="section-heading"><div><span class="kicker">FIND YOUR CREW</span><h2>Great work starts with<br /><em>the right people.</em></h2></div><p>Choose a specialist, compare transparent credentials, or assemble a highly rated team with one tap.</p></div>
+        <div class="service-tabs" role="tablist"><button class="active" data-service="All professionals">All professionals</button><button data-service="Carpenter">Woodwork</button><button data-service="Mason">Masonry</button><button data-service="Painter">Painting</button><button data-service="Electrician">Electrical</button><button data-service="Plumber">Plumbing</button></div>
+        <div class="trade-gallery" aria-label="Browse labour categories">
+          <button data-service="Mason"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=500&q=80" alt="Masonry worker at a site"/><span><b>Mason</b><small>Brickwork & plaster</small></span></button>
+          <button data-service="Carpenter"><img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=500&q=80" alt="Carpenter working with wood"/><span><b>Carpenter</b><small>Woodwork & furniture</small></span></button>
+          <button data-service="Painter"><img src="https://images.unsplash.com/photo-1615109398623-88346a601842?auto=format&fit=crop&w=500&q=80" alt="Painter at work"/><span><b>Painter</b><small>Colour & textures</small></span></button>
+          <button data-service="Electrician"><img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=500&q=80" alt="Electrician at work"/><span><b>Electrician</b><small>Wiring & fixtures</small></span></button>
+          <button data-service="Plumber"><img src="https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=500&q=80" alt="Plumber at work"/><span><b>Plumber</b><small>Pipes & fittings</small></span></button>
+        </div>
+        <div class="pro-layout"><div class="pro-grid" id="proGrid"></div><aside class="team-builder"><span class="kicker">SMART CREW</span><h3>Build a dream team,<br />not a guess.</h3><p>Tell us the scope. Our matching engine balances skill, ratings, cost and availability.</p><div class="crew-members"><div><span class="crew-icon">⌂</span><b>2 Carpenters</b><small>for custom wardrobes</small></div><div><span class="crew-icon">◫</span><b>1 Painter</b><small>for final finish</small></div></div><button class="button button-dark full" id="crewBtn">Create my crew <span>→</span></button></aside></div>
+      </section>
+
+      <section class="rank-section" id="pro"><div class="rank-visual"><div class="rank-orbit orbit1"></div><div class="rank-orbit orbit2"></div><div class="rank-center"><span>✦</span><b>PRO</b><small>verified</small></div><div class="rank-chip c1">SILVER <span>◆</span></div><div class="rank-chip c2">GOLD <span>◆</span></div><div class="rank-chip c3">DIAMOND <span>◆</span></div><div class="rank-chip c4">VIP <span>✦</span></div></div><div class="rank-copy"><span class="kicker">EARN YOUR CRAFT</span><h2>Skill should earn<br /><em>more than stars.</em></h2><p>Our Progress Rank recognizes the work behind the work. Pros rise through verified projects, reliability, training and on-site quality checks — unlocking better projects and higher pay.</p><div class="criteria"><div><span>01</span><b>Verified skill tests</b></div><div><span>02</span><b>Quality site inspections</b></div><div><span>03</span><b>Customer trust & reliability</b></div></div><a href="#how" class="arrow-link">How professionals level up <span>→</span></a></div></section>
+
+      <section class="design-section section" id="designs"><div class="section-heading"><div><span class="kicker">DESIGN THAT GETS BUILT WELL</span><h2>Beautiful ideas.<br /><em>Buildable details.</em></h2></div><p>Architect-led plans transformed into simple, visual step-by-step guides your trained Nirmaan Pro crew can confidently execute.</p></div>
+        <div class="design-grid"><article class="design-card large"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1300&q=85" alt="Warm modern living room interior"/><div class="design-caption"><span>02 / MODERN WARMTH</span><h3>The Nivasa Home</h3><p>2BHK · 1,140 sq ft · From ₹21L</p><button data-design="The Nivasa Home">View design <span>↗</span></button></div></article><article class="design-card"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=85" alt="Minimal bathroom interior"/><div class="design-caption"><span>01 / CALM MINIMAL</span><h3>The Aangan</h3><p>1BHK · 720 sq ft</p></div></article><article class="design-card"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=85" alt="Contemporary house exterior"/><div class="design-caption"><span>03 / TROPICAL MODERN</span><h3>The Courtyard</h3><p>3BHK · 1,860 sq ft</p></div></article></div>
+      </section>
+
+      <section class="guidance" id="how"><div class="guide-copy"><span class="kicker">NIRMAAN GUIDE</span><h2>Every detail,<br /><em>made clearer.</em></h2><p>Your crew gets a pocket-sized, multilingual execution guide built from the architect's plan — with dimensions, materials, visual checks and support when they need it.</p><button class="button button-lime" id="guideBtn">Try the site guide <span>→</span></button></div><div class="phone-wrap"><div class="phone"><div class="notch"></div><div class="phone-head"><span>‹</span><b>Nivasa / Kitchen</b><span>•••</span></div><div class="phone-photo"><img src="https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?auto=format&fit=crop&w=600&q=85" alt="Kitchen construction guide"/><span>STEP 04 OF 12</span></div><div class="phone-content"><div class="progress"><span></span></div><h4>Set the counter height</h4><p>Mark a finished height of <b>34 inches</b> from the floor. Keep level within 3mm.</p><div class="guide-actions"><button>🎧 Listen in Hindi</button><button>Ask Nirmaan AI ✦</button></div></div></div><div class="guide-bubble">“Perfect — level is within tolerance.” <span>✓</span></div></div></section>
+
+      <section class="safety section" id="safety"><div class="safety-intro"><span class="kicker">BUILT ON TRUST</span><h2>Clear, fair, and<br /><em>safe by default.</em></h2></div><div class="safety-grid"><article><div class="safety-icon">✓</div><h3>Verified identity</h3><p>Every professional is identity-checked, skill-verified, and visible through their real work history.</p></article><article><div class="safety-icon">₹</div><h3>Upfront pricing</h3><p>Know daily rates, materials and project estimates before you confirm. No uncomfortable surprises.</p></article><article><div class="safety-icon">◎</div><h3>Work guarantee</h3><p>Milestone photos and quality checks create a transparent record from first measure to final handover.</p></article></div></section>
+
+      <section class="final-cta"><div><span class="kicker">MAKE THE NEXT MOVE</span><h2>Ready to build<br /><em>something better?</em></h2></div><div><p>Whether it’s a small repair or a whole home, start with people you can trust.</p><button class="button button-lime" data-open="post">Post your requirement <span>→</span></button></div></section>
+    </main>
+    <footer><a class="brand" href="#top"><span class="brand-mark">n</span>nirmaan</a><p>Better work. Better homes. © 2026</p><div><button data-footer="trust">Trust & safety</button><button data-footer="pros">For pros</button><button data-footer="privacy">Privacy</button></div></footer>
+
+    <div class="modal" id="modal" aria-hidden="true"><div class="modal-backdrop" data-close></div><div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" data-close aria-label="Close">×</button><div id="modalContent"></div></div></div>
+    <div class="toast" id="toast" role="status"><span>✓</span><div><b>Request sent</b><small>We’re finding your best matches now.</small></div></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

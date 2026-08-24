@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#12261f" />
+  <title>Nirmaan — My Worker Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    :root {
+      --ink: #12261f;
+      --lime: #d6f35d;
+      --moss: #204c38;
+      --sans: 'DM Sans', sans-serif;
+      --mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: #eef3eb; color: var(--ink); min-height: 100vh; }
+
+    /* Header */
+    .dash-header {
+      background: var(--ink); padding: 14px 28px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 12px #0004;
+    }
+    .dash-brand { font-family: var(--mono); color: var(--lime); font-size: 20px; font-weight: 500; text-decoration: none; }
+    .dash-brand span { font-size: 24px; font-weight: 700; }
+    .header-live { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #aec9b5; font-family: var(--mono); }
+    .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; animation: pulse-dot 1.5s infinite; }
+    @keyframes pulse-dot { 0%,100%{opacity:1}50%{opacity:.3} }
+    .btn-logout { background: transparent; border: 1px solid #3a5244; color: #c8dbd0; font-size: 12px; padding: 7px 16px; border-radius: 7px; cursor: pointer; font-family: var(--sans); transition: all .2s; }
+    .btn-logout:hover { background: #3a5244; color: white; }
+
+    /* Layout */
+    .dash-layout { display: flex; min-height: calc(100vh - 54px); }
+
+    /* Sidebar */
+    .dash-sidebar {
+      width: 276px; min-width: 260px; background: var(--ink); color: white;
+      padding: 24px 18px; display: flex; flex-direction: column; gap: 16px;
+      position: sticky; top: 54px; height: calc(100vh - 54px); overflow-y: auto;
+    }
+    .profile-avatar-ring {
+      width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--lime);
+      overflow: hidden; background: #2e4c3a; box-shadow: 0 0 0 5px #d6f35d1a;
+      margin: 0 auto 10px; display: block;
+    }
+    .profile-avatar-ring img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-avatar-ring:hover { border-color: #a8cf2e; box-shadow: 0 0 0 8px #d6f35d22; }
+    .profile-avatar-ring::after { content: '🔍'; position: absolute; bottom: 0; right: 0; background: #d6f35d; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 13px; box-shadow: 0 2px 8px #0004; }
+    .profile-name { font-size: 17px; font-weight: 700; text-align: center; }
+    .profile-role-label { font-size: 11px; color: #9bbfae; text-align: center; font-family: var(--mono); margin-bottom: 4px; }
+    .profile-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; }
+    .badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
+    .badge-g { background: #1e7e3422; color: #4ade80; border: 1px solid #4ade8033; }
+    .badge-b { background: #1d558b22; color: #93c5fd; border: 1px solid #93c5fd33; }
+    .divider { border: none; border-top: 1px solid #2e4c3a; }
+
+    /* Rank mini */
+    .rank-row { display: flex; justify-content: space-between; align-items: center; background: #1e3d2c; border-radius: 8px; padding: 10px 13px; }
+    .rank-chip { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 4px; letter-spacing: .06em; text-transform: uppercase; }
+    .rc-silver { background: linear-gradient(135deg,#bdc3c7,#95a5a6); color: #111; }
+    .rc-gold { background: linear-gradient(135deg,#f6d365,#e8a93c); color: #111; }
+    .rc-diamond { background: linear-gradient(135deg,#89f7fe,#66a6ff); color: #111; }
+    .rc-vip { background: linear-gradient(135deg,#a18cd1,#fbc2eb); color: #111; }
+    .xp-mini-bg { height: 4px; background: #2e4c3a; border-radius: 2px; margin-top: 6px; }
+    .xp-mini-fill { height: 4px; background: var(--lime); border-radius: 2px; transition: width .5s; }
+
+    /* Avail toggle */
+    .avail-toggle { display: flex; align-items: center; justify-content: space-between; background: #1e3d2c; border-radius: 8px; padding: 10px 13px; cursor: pointer; user-select: none; }
+    .avail-toggle span { font-size: 12px; color: #cce3d5; }
+    .avail-dot { width: 10px; height: 10px; border-radius: 50%; background: #4ade80; animation: pulse-dot 1.5s infinite; }
+    .avail-dot.busy { background: #f97316; animation: none; }
+
+    /* Stats */
+    .stat-row { display: flex; justify-content: space-between; font-size: 12px; align-items: baseline; }
+    .stat-label { color: #7ea898; }
+    .stat-val { font-weight: 600; font-family: var(--mono); color: var(--lime); text-align: right; max-width: 56%; word-break: break-all; }
+
+    /* Sidebar nav */
+    .sidebar-nav { display: flex; flex-direction: column; gap: 3px; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; font-size: 13px; color: #9bbfae; cursor: pointer; border: none; background: transparent; font-family: var(--sans); text-align: left; width: 100%; transition: all .18s; }
+    .nav-item:hover, .nav-item.active { background: #204c38; color: white; }
+    .nav-item.active { color: var(--lime); }
+
+    /* Main */
+    .dash-main { flex: 1; padding: 28px; overflow-x: hidden; }
+
+    /* Section */
+    .section-title { font-size: 12px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: #5a7a68; margin-bottom: 16px; padding-bottom: 7px; border-bottom: 1px solid #d0ddd0; }
+
+    /* Rank card */
+    .rank-card { background: var(--ink); color: white; border-radius: 14px; padding: 20px 22px; margin-bottom: 24px; }
+    .rank-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .rank-label { font-size: 14px; font-weight: 600; margin-left: 10px; }
+    .rank-pct { font-size: 12px; color: var(--lime); font-family: var(--mono); }
+    .xp-bar-bg { height: 7px; background: #2e4c3a; border-radius: 4px; margin-bottom: 8px; }
+    .xp-bar-fill { height: 7px; background: var(--lime); border-radius: 4px; transition: width .5s; }
+    .rank-sub { font-size: 11px; color: #9bbfae; margin-bottom: 14px; line-height: 1.5; }
+    .rank-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; border-top: 1px solid #2e4c3a; padding-top: 14px; text-align: center; }
+    .rank-stat b { font-size: 16px; display: block; color: var(--lime); }
+    .rank-stat small { font-size: 10px; color: #9bbfae; }
+
+    /* Jobs */
+    .job-list { display: flex; flex-direction: column; gap: 12px; }
+    .job-card { background: white; border-radius: 12px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px; border: 1px solid #e5ebe1; transition: box-shadow .2s; }
+    .job-card:hover { box-shadow: 0 4px 18px #12261f12; }
+    .job-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .job-card p { font-size: 12px; color: #5a7a68; margin-bottom: 2px; }
+    .job-card small { font-size: 11px; color: #8a9f8f; }
+    .job-right { text-align: right; flex-shrink: 0; }
+    .job-rate { display: block; font-family: var(--mono); font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .btn-accept { background: var(--ink); color: var(--lime); border: none; padding: 9px 18px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; transition: background .2s; white-space: nowrap; }
+    .btn-accept:hover { background: var(--moss); }
+    .btn-accept.done { background: #d1fae5; color: #065f46; cursor: default; }
+
+    /* Reviews */
+    .reviews-list { display: flex; flex-direction: column; gap: 12px; }
+    .review-card { background: white; border-radius: 10px; padding: 14px 18px; border: 1px solid #e5ebe1; }
+    .review-top { display: flex; justify-content: space-between; margin-bottom: 6px; }
+    .review-author { font-size: 13px; font-weight: 700; }
+    .review-stars { color: #e67e22; }
+    .review-text { font-size: 12px; color: #5a7a68; font-style: italic; }
+
+    /* Map */
+    #dashRadiusMap { height: 300px; border-radius: 12px; border: 1px solid #d0ddd0; }
+
+    /* Profile details */
+    .details-grid { background: white; border-radius: 14px; padding: 24px; border: 1px solid #e5ebe1; display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .detail-item { padding: 12px 0; border-bottom: 1px solid #f0f4ee; }
+    .detail-item:nth-last-child(-n+2) { border-bottom: none; }
+    .detail-key { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #8a9f8f; margin-bottom: 4px; }
+    .detail-val { font-size: 14px; font-weight: 600; color: var(--ink); }
+
+    /* Toast */
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--ink); color: white; padding: 14px 20px; border-radius: 10px; max-width: 300px; z-index: 9999; box-shadow: 0 8px 30px #0005; transform: translateY(80px); opacity: 0; transition: all .35s cubic-bezier(.4,0,.2,1); }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast b { display: block; font-size: 13px; margin-bottom: 3px; }
+    .toast small { font-size: 11px; color: #9bbfae; }
+
+    /* Responsive */
+    @media(max-width:680px){
+      .dash-layout{flex-direction:column}
+      .dash-sidebar{width:100%;height:auto;position:static}
+      .details-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<header class="dash-header">
+  <a href="index.html" class="dash-brand"><span>n</span>irmaan</a>
+  <div class="header-live">
+    <div class="live-dot" id="headerLiveDot"></div>
+    <span id="headerStatus">Profile Live</span>
+  </div>
+  <button class="btn-logout" id="logoutBtn">🚪 Log out</button>
+</header>
+
+<div class="dash-layout">
+
+  <!-- Sidebar -->
+  <aside class="dash-sidebar">
+    <div class="profile-avatar-ring" id="avatarRing" onclick="openPhotoPopup()" style="cursor:pointer;position:relative" title="Click to view photo">
+      <img id="workerPhoto" src="" alt="Profile Photo" />
+    </div>
+    <div class="profile-name" id="workerName">Loading…</div>
+    <div class="profile-role-label" id="workerRole">—</div>
+    <div class="profile-badges">
+      <span class="badge badge-g">✓ Aadhaar Verified</span>
+      <span class="badge badge-b">✦ Skill Tested</span>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- Rank mini -->
+    <div class="rank-row">
+      <div>
+        <div style="font-size:10px;color:#7ea898;margin-bottom:5px;font-family:var(--mono)">CURRENT RANK</div>
+        <span class="rank-chip rc-silver" id="sideRankChip">SILVER</span>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:11px;color:var(--lime);font-family:var(--mono)" id="sideXpPct">0%</div>
+        <div style="font-size:10px;color:#7ea898;margin-top:2px" id="sideNextRank">to GOLD</div>
+      </div>
+    </div>
+    <div class="xp-mini-bg"><div class="xp-mini-fill" id="sideXpBar" style="width:0%"></div></div>
+
+    <!-- Availability -->
+    <div class="avail-toggle" id="availToggle">
+      <span id="availLabel">Available for Work</span>
+      <div class="avail-dot" id="availDot"></div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- Stats -->
+    <div style="display:flex;flex-direction:column;gap:9px">
+      <div class="stat-row"><span class="stat-label">📞 Phone</span><span class="stat-val" id="sidePhone">—</span></div>
+      <div class="stat-row"><span class="stat-label">📍 Location</span><span class="stat-val" id="sideLoc">—</span></div>
+      <div class="stat-row"><span class="stat-label">🛠️ Trade</span><span class="stat-val" id="sideTrade">—</span></div>
+      <div class="stat-row"><span class="stat-label">🗓️ Experience</span><span class="stat-val" id="sideExp">—</span></div>
+      <div class="stat-row"><span class="stat-label">⭐ Rating</span><span class="stat-val" id="sideRating">5.0 ★</span></div>
+      <div class="stat-row"><span class="stat-label">✅ Jobs Done</span><span class="stat-val" id="sideJobs">0</span></div>
+    </div>
+
+    <hr class="divider" />
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-section="jobs">💼 Jobs Feed</button>
+      <button class="nav-item" data-section="reviews">⭐ Ratings & Reviews</button>
+      <button class="nav-item" data-section="map">🗺️ Work Radius Map</button>
+      <button class="nav-item" data-section="profile">👤 My Profile</button>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="dash-main">
+
+    <!-- Rank Progress Card -->
+    <div class="rank-card">
+      <div class="rank-head">
+        <div style="display:flex;align-items:center">
+          <span class="rank-chip rc-silver" id="mainRankChip">SILVER</span>
+          <span class="rank-label" id="mainRankLabel">Verified Starter</span>
+        </div>
+        <span class="rank-pct" id="mainXpPct">0% to GOLD</span>
+      </div>
+      <div class="xp-bar-bg"><div class="xp-bar-fill" id="mainXpBar" style="width:0%"></div></div>
+      <div class="rank-sub">Each completed job and 5★ rating accelerates your promotion to the next rank tier.</div>
+      <div class="rank-stats">
+        <div class="rank-stat"><b id="statExp">—</b><small>Experience</small></div>
+        <div class="rank-stat"><b id="statRating">5.0 ★</b><small>Work Quality</small></div>
+        <div class="rank-stat"><b id="statJobs">0</b><small>Jobs Done</small></div>
+      </div>
+    </div>
+
+    <!-- Jobs Feed -->
+    <section id="section-jobs">
+      <div class="section-title">💼 Nearby Jobs Feed</div>
+      <div class="job-list" id="jobList"></div>
+    </section>
+
+    <!-- Reviews -->
+    <section id="section-reviews" style="display:none">
+      <div class="section-title">⭐ Ratings & Reviews</div>
+      <div class="reviews-list" id="reviewsList"></div>
+    </section>
+
+    <!-- Map -->
+    <section id="section-map" style="display:none">
+      <div class="section-title">🗺️ My Work Radius Map</div>
+      <div id="dashRadiusMap"></div>
+    </section>
+
+    <!-- Profile Details -->
+    <section id="section-profile" style="display:none">
+      <div class="section-title">👤 My Profile Details</div>
+      <div class="details-grid" id="detailsGrid"></div>
+    </section>
+
+  </main>
+</div>
+
+<div class="toast" id="toast">
+  <b id="toastTitle">Done!</b>
+  <small id="toastMsg">—</small>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  /* ── Load worker ───────────────────────────────────────────── */
+  let w = null;
+  let mapReady = false;
+
+  try {
+    w = JSON.parse(localStorage.getItem('nirmaan_logged_worker') || 'null');
+    if (!w) {
+      const customList = JSON.parse(localStorage.getItem('nirmaan_custom_workers') || '[]');
+      if (customList && customList.length > 0) {
+        w = customList[0];
+        try { localStorage.setItem('nirmaan_logged_worker', JSON.stringify(w)); } catch(err){}
+      }
+    }
+  } catch(e){}
+
+  if (!w) {
+    w = {
+      id: 'w_new',
+      name: 'Registered Pro',
+      phone: '9876543210',
+      role: 'Master Carpenter',
+      category: 'Carpenter',
+      rank: 'SILVER',
+      cls: 'silver',
+      rating: '5.0',
+      jobs: '0 jobs',
+      rate: '₹950/day',
+      image: '',
+      location: 'New Delhi, Delhi',
+      experience: '4–8 years',
+      available: true
+    };
+  }
+
+  /* ── Rank helper ───────────────────────────────────────────── */
+  const RANK_LABELS = { SILVER:'Verified Starter', GOLD:'Reliable Pro', DIAMOND:'Trained Quality', VIP:'Design Crew Master' };
+  const RANK_CLS   = { SILVER:'rc-silver', GOLD:'rc-gold', DIAMOND:'rc-diamond', VIP:'rc-vip' };
+
+  function jobsNum(w){ return parseInt(String(w.jobs||'0').replace(/\D/g,''))||0; }
+
+  function calcRank(w){
+    const jobs=jobsNum(w), rating=parseFloat(w.rating||'5.0');
+    const score=jobs*14+(rating-3)*10+15;
+    let rank='SILVER',next='GOLD',lo=15,hi=55;
+    if(score>=90){rank='VIP';next='TOP MASTER';lo=90;hi=130;}
+    else if(score>=70){rank='DIAMOND';next='VIP';lo=70;hi=90;}
+    else if(score>=40){rank='GOLD';next='DIAMOND';lo=40;hi=70;}
+    const pct=Math.min(100,Math.max(0,Math.round(((score-lo)/(hi-lo))*100)));
+    return {rank,next,cls:RANK_CLS[rank]||'rc-silver',label:RANK_LABELS[rank]||rank,pct,jobs};
+  }
+
+  /* ── Jobs data ─────────────────────────────────────────────── */
+  const JOBS=[
+    {title:'Wardrobe & Modular Kitchen Shuttering',loc:'Indiranagar, Bengaluru',days:'4 days',trade:'Carpenter',dist:'1.2 km away',rate:'₹1,350/day'},
+    {title:'Full 3BHK Texture Wall Finish & Polish',loc:'Domlur, Bengaluru',days:'6 days',trade:'Painter',dist:'1.8 km away',rate:'₹1,150/day'},
+    {title:'Terrace Waterproofing & Brick Masonry',loc:'Koramangala, Bengaluru',days:'3 days',trade:'Mason',dist:'2.4 km away',rate:'₹1,400/day'},
+    {title:'Electrical Panel Rewiring & Safety Audit',loc:'Jayanagar, Bengaluru',days:'2 days',trade:'Electrician',dist:'3.1 km away',rate:'₹1,200/day'},
+    {title:'Bathroom Concealed Plumbing Upgrade',loc:'HSR Layout, Bengaluru',days:'2 days',trade:'Plumber',dist:'4.0 km away',rate:'₹1,100/day'},
+  ];
+
+  /* ── Render ────────────────────────────────────────────────── */
+  function render(){
+    if(!w)return;
+    const rank=calcRank(w);
+
+    // Photo — only set if real image exists
+    const photo=document.getElementById('workerPhoto');
+    if(w.image&&(w.image.startsWith('data:')||w.image.startsWith('http'))){
+      photo.src=w.image;
+    } else {
+      photo.style.background='#2e4c3a';
+      photo.style.display='flex';
+      photo.parentElement.innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:36px;background:#2e4c3a;color:var(--lime)">👷</div>';
+    }
+
+    document.getElementById('workerName').textContent=w.name||'Worker';
+    document.getElementById('workerRole').textContent=w.role||w.category||'Labour';
+
+    // Sidebar rank
+    const sc=document.getElementById('sideRankChip');
+    sc.textContent=rank.rank; sc.className='rank-chip '+rank.cls;
+    document.getElementById('sideXpPct').textContent=rank.pct+'%';
+    document.getElementById('sideNextRank').textContent='to '+rank.next;
+    document.getElementById('sideXpBar').style.width=rank.pct+'%';
+
+    // Stats
+    document.getElementById('sidePhone').textContent=w.phone?'+91 '+w.phone:'—';
+    const locShort=(w.location||'India').split(',')[0].substring(0,20);
+    document.getElementById('sideLoc').textContent=locShort;
+    document.getElementById('sideTrade').textContent=w.category||w.role||'—';
+    document.getElementById('sideExp').textContent=w.experience||'—';
+    document.getElementById('sideRating').textContent=(w.rating||'5.0')+' ★';
+    document.getElementById('sideJobs').textContent=rank.jobs;
+
+    // Main rank card
+    const mc=document.getElementById('mainRankChip');
+    mc.textContent=rank.rank; mc.className='rank-chip '+rank.cls;
+    document.getElementById('mainRankLabel').textContent=rank.label;
+    document.getElementById('mainXpPct').textContent=rank.pct+'% to '+rank.next;
+    document.getElementById('mainXpBar').style.width=rank.pct+'%';
+    document.getElementById('statExp').textContent=w.experience||'—';
+    document.getElementById('statRating').textContent=(w.rating||'5.0')+' ★';
+    document.getElementById('statJobs').textContent=rank.jobs;
+
+    // Header
+    const avail=w.available!==false;
+    document.getElementById('headerLiveDot').style.background=avail?'#4ade80':'#f97316';
+    document.getElementById('headerStatus').textContent=avail?'Profile Live':'Offline';
+    document.getElementById('availLabel').textContent=avail?'Available for Work':'Busy / Offline';
+    const dot=document.getElementById('availDot');
+    dot.className=avail?'avail-dot':'avail-dot busy';
+
+    renderJobs();
+    renderReviews();
+    renderProfile();
+  }
+
+  function renderJobs(){
+    const container=document.getElementById('jobList');
+    container.innerHTML=JOBS.map((job,i)=>`
+      <div class="job-card">
+        <div>
+          <h4>${job.title}</h4>
+          <p>📍 ${job.loc} · ⏱️ ${job.days}</p>
+          <small>Matching trade: ${job.trade} · ${job.dist}</small>
+        </div>
+        <div class="job-right">
+          <span class="job-rate">${job.rate}</span>
+          <button class="btn-accept" data-job="${i}">Accept Job →</button>
+        </div>
+      </div>
+    `).join('');
+    container.querySelectorAll('.btn-accept').forEach(btn=>{
+      btn.addEventListener('click',()=>acceptJob(btn,btn.dataset.job));
+    });
+  }
+
+  function renderReviews(){
+    const reviews=(w.reviews&&w.reviews.length)?w.reviews:[
+      {author:'Nirmaan Inspector',rating:5,text:'Verified skill onboarding assessment completed successfully.'},
+      {author:'Deepak M.',rating:5,text:'Great punctuality and accurate woodwork. Very professional.'},
+      {author:'Sumanth B.',rating:5,text:'Very disciplined, delivered a clean finish on schedule.'}
+    ];
+    document.getElementById('reviewsList').innerHTML=reviews.map(r=>`
+      <div class="review-card">
+        <div class="review-top">
+          <span class="review-author">${r.author}</span>
+          <span class="review-stars">${'★'.repeat(r.rating||5)}</span>
+        </div>
+        <p class="review-text">"${r.text}"</p>
+      </div>
+    `).join('');
+  }
+
+  function renderProfile(){
+    const fields=[
+      ['Full Name',w.name||'—'],
+      ['Mobile No.',w.phone?'+91 '+w.phone:'—'],
+      ['Trade / Skill',w.role||w.category||'—'],
+      ['Experience',w.experience||'—'],
+      ['Daily Rate',w.rate||'₹950/day'],
+      ['Location',w.location||'—'],
+      ['Aadhaar Status',w.aadhaarLast4?`✓ VERIFIED (•••• •••• ${w.aadhaarLast4})`:'✓ VERIFIED'],
+      ['Account ID',(w.id||'').substring(0,16)+'…'],
+    ];
+    document.getElementById('detailsGrid').innerHTML=fields.map(([k,v])=>`
+      <div class="detail-item">
+        <div class="detail-key">${k}</div>
+        <div class="detail-val">${v}</div>
+      </div>
+    `).join('');
+  }
+
+  /* ── Accept Job ────────────────────────────────────────────── */
+  function acceptJob(btn,idx){
+    if(btn.classList.contains('done'))return;
+    btn.textContent='✓ Accepted!'; btn.classList.add('done'); btn.disabled=true;
+    const prev=calcRank(w);
+    w.jobs=(jobsNum(w)+1)+' jobs';
+    const now=calcRank(w);
+    w.rank=now.rank; w.cls=now.cls.replace('rc-','');
+    save();
+    render();
+    if(now.rank!==prev.rank){
+      showToast('🎉 Rank Up!','Congrats! You are now '+now.rank+'!');
+    } else {
+      showToast('Job Accepted!','Customer notified. Keep up the great work!');
+    }
+  }
+
+  /* ── Availability ──────────────────────────────────────────── */
+  document.getElementById('availToggle').addEventListener('click',()=>{
+    w.available=!(w.available!==false);
+    save(); render();
+    showToast(w.available?'Available':'Offline',w.available?'Customers can now find you.':'Your profile is paused.');
+  });
+
+  /* ── Save ──────────────────────────────────────────────────── */
+  function save(){
+    localStorage.setItem('nirmaan_logged_worker',JSON.stringify(w));
+    try{
+      let list=JSON.parse(localStorage.getItem('nirmaan_custom_workers')||'[]');
+      const i=list.findIndex(x=>x.id===w.id);
+      if(i>-1){list[i]=w;localStorage.setItem('nirmaan_custom_workers',JSON.stringify(list));}
+    }catch(e){}
+  }
+
+  /* ── Section nav ───────────────────────────────────────────── */
+  document.querySelectorAll('.nav-item').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const sec=btn.dataset.section;
+      ['jobs','reviews','map','profile'].forEach(s=>{
+        document.getElementById('section-'+s).style.display=s===sec?'block':'none';
+      });
+      if(sec==='map'&&!mapReady){ initMap(); mapReady=true; }
+    });
+  });
+
+  /* ── Leaflet Map ───────────────────────────────────────────── */
+  function initMap(){
+    const lat=w.lat||12.9716, lng=w.lng||77.5946;
+    const map=L.map('dashRadiusMap',{scrollWheelZoom:false}).setView([lat,lng],13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+    const hasPhoto=w.image&&(w.image.startsWith('data:')||w.image.startsWith('http'));
+    const icon=L.divIcon({
+      className:'',
+      html:`<div style="width:46px;height:46px;border-radius:50%;overflow:hidden;border:3px solid #d6f35d;box-shadow:0 2px 10px #0004;background:#2e4c3a;display:flex;align-items:center;justify-content:center">${hasPhoto?`<img src="${w.image}" style="width:100%;height:100%;object-fit:cover"/>`:'<span style="font-size:22px">👷</span>'}</div>`,
+      iconSize:[46,46],iconAnchor:[23,23]
+    });
+    L.marker([lat,lng],{icon}).addTo(map).bindPopup(`<b>${w.name}</b><br>${w.role||w.category} · ${w.rating||'5.0'} ★`).openPopup();
+    L.circle([lat,lng],{radius:3500,color:'#12261f',fillColor:'#12261f',fillOpacity:.08}).addTo(map);
+    setTimeout(()=>map.invalidateSize(),100);
+  }
+
+  /* ── Logout ────────────────────────────────────────────────── */
+  document.getElementById('logoutBtn').addEventListener('click',()=>{
+    localStorage.removeItem('nirmaan_logged_worker');
+    window.location.href='index.html';
+  });
+
+  /* ── Toast ─────────────────────────────────────────────────── */
+  function showToast(title,msg){
+    document.getElementById('toastTitle').textContent=title;
+    document.getElementById('toastMsg').textContent=msg;
+    const t=document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),3800);
+  }
+
+  /* ── Photo Popup ────────────────────────────────────────────── */
+  function openPhotoPopup(){
+    const existing = document.getElementById('photoPopupOverlay');
+    if(existing){ existing.remove(); return; }
+    const hasPhoto = w && w.image && (w.image.startsWith('data:') || w.image.startsWith('http'));
+    const overlay = document.createElement('div');
+    overlay.id = 'photoPopupOverlay';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;cursor:pointer;backdrop-filter:blur(4px)';
+    overlay.onclick = () => overlay.remove();
+    overlay.innerHTML = `
+      <div style="position:relative;max-width:320px;width:90%">
+        <div style="width:100%;padding-bottom:100%;border-radius:50%;overflow:hidden;border:4px solid #d6f35d;box-shadow:0 12px 60px #0008;background:#1e3d2c;position:relative">
+          ${hasPhoto
+            ? `<img src="${w.image}" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover" alt="${w.name}"/>`
+            : `<div style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:80px">👷</div>`}
+        </div>
+        <div style="position:absolute;top:-6px;right:-6px;background:#d6f35d;color:#12261f;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;cursor:pointer" onclick="document.getElementById('photoPopupOverlay').remove()">×</div>
+      </div>
+      <div style="text-align:center;color:white">
+        <div style="font-size:20px;font-weight:700;margin-bottom:4px">${w ? w.name : 'Worker'}</div>
+        <div style="font-size:13px;color:#9bbfae">${w ? (w.role || w.category || '') : ''}</div>
+      </div>
+      <div style="font-size:11px;color:#667766">Tap anywhere to close</div>
+    `;
+    document.body.appendChild(overlay);
+  }
+
+  /* ── Boot ──────────────────────────────────────────────────── */
+  render();
+</script>
+</body>
+</html>

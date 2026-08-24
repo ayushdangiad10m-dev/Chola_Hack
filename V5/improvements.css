@@ -1,0 +1,113 @@
+/* Expanded customer and worker journeys */
+.path-picker{display:grid;grid-template-columns:1fr 1fr;gap:11px;max-width:540px;margin-top:26px}.path-card{border:1px solid #cad4c8;border-radius:10px;background:#fffdf8;padding:14px;display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:9px;text-align:left;transition:.2s}.path-card:hover{transform:translateY(-3px);box-shadow:0 10px 22px #263f321c}.path-card b,.path-card small{display:block}.path-card b{font-size:13px}.path-card small{font-size:10px;color:#68776d;margin-top:3px}.path-card strong{font-size:18px}.path-icon{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;font-size:17px;background:#e9f2db}.path-work{background:#e4f2bc;border-color:#cfdf9f}.path-work .path-icon{background:#17352a;color:#dcf77b}.hero-design-link{margin-top:21px}.special-homes{padding:90px max(5vw,calc((100vw - 1320px)/2));background:#e8eee3;display:grid;grid-template-columns:34% 1fr;gap:38px;align-items:end}.special-intro h2{font:600 clamp(35px,3.5vw,53px)/1 var(--serif);letter-spacing:-2.5px;margin:14px 0 18px}.special-intro h2 em{color:#60786c}.special-intro p{font-size:14px;color:#5d6d64;line-height:1.62;max-width:365px}.special-intro .arrow-link{color:var(--ink);display:inline-block;margin-top:10px}.home-scroller{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:13px}.home-tile{height:290px;border:0;border-radius:10px;background:#18241d;overflow:hidden;position:relative;text-align:left;color:white;padding:0}.home-tile img{width:100%;height:100%;object-fit:cover;transition:transform .45s}.home-tile:hover img{transform:scale(1.05)}.home-tile:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 40%,#0b1711ba)}.home-tile span{position:absolute;z-index:1;bottom:17px;left:17px;display:grid;gap:5px}.home-tile small{font:9px var(--mono);letter-spacing:.08em}.home-tile b{font:600 19px var(--serif)}.home-tile em{font-size:11px;font-style:normal;color:var(--lime)}.trade-gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:0 0 31px}.trade-gallery button{border:0;background:#edf0ea;padding:0;border-radius:8px;overflow:hidden;text-align:left;color:var(--ink);transition:transform .2s}.trade-gallery button:hover{transform:translateY(-3px)}.trade-gallery img{width:100%;height:112px;object-fit:cover;display:block}.trade-gallery span{display:grid;gap:2px;padding:10px}.trade-gallery b{font-size:13px}.trade-gallery small{font-size:10px;color:#6a796f}.map-box{height:190px;margin:19px 0;border-radius:9px;overflow:hidden;border:1px solid #d8e1d7;position:relative;background:#d8e9d9}.map-box iframe{width:100%;height:100%;border:0;filter:saturate(.65)}.map-key{position:absolute;z-index:2;top:9px;left:9px;background:#fffefb;padding:7px 9px;border-radius:5px;box-shadow:0 2px 8px #2037292b;font:10px var(--mono);color:#30473c}.nearby-callout{background:#edf5d6;padding:11px 13px;border-radius:6px;font-size:12px;color:#375142;line-height:1.45}.nearby-callout b{color:#193d2d}.rate-table{margin:17px 0;border:1px solid #e1e7dc;border-radius:7px;overflow:hidden}.rate-table div{display:flex;justify-content:space-between;padding:9px 11px;font-size:11px;border-bottom:1px solid #e8ece5}.rate-table div:last-child{border:0}.rate-table b{font-size:12px}.video-card{background:#18352a;border-radius:10px;color:white;overflow:hidden;margin:18px 0}.video-frame{height:140px;background:linear-gradient(120deg,#346e59,#112c23);display:grid;place-items:center;position:relative}.video-frame:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:#d6f35d28}.video-play{position:relative;width:49px;height:49px;border-radius:50%;display:grid;place-items:center;background:var(--lime);color:var(--ink);font-size:16px;padding-left:3px}.video-card div:last-child{padding:12px 15px;display:flex;justify-content:space-between;align-items:center;font-size:12px}.video-card small{color:#b7c9bd}.rank-explainer{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:18px 0}.rank-explainer div{padding:9px 7px;border-radius:6px;background:#f0f3ec;font-size:10px}.rank-explainer b,.rank-explainer small{display:block}.rank-explainer b{font:10px var(--mono);margin-bottom:3px}.rank-explainer small{font-size:9px;color:#6c7a70}.escrow-note{background:#fff1db;border-left:3px solid #e99b35;padding:11px 12px;color:#64481d;font-size:11px;line-height:1.45;margin:18px 0}.home-modal-hero{height:190px;border-radius:8px;overflow:hidden;margin:18px 0 14px}.home-modal-hero img{width:100%;height:100%;object-fit:cover}.space-choices{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}.space-choices button{border:1px solid #dce5d8;background:#fff;padding:0;border-radius:7px;overflow:hidden;text-align:left}.space-choices img{width:100%;height:60px;object-fit:cover;display:block}.space-choices span{font-size:10px;display:block;padding:7px}.match-team{display:flex;align-items:center;gap:8px;background:#e8f4cc;border-radius:7px;padding:10px;margin-top:14px}.match-team .avatars{min-width:80px}.match-team b,.match-team small{display:block}.match-team b{font-size:12px}.match-team small{font-size:10px;color:#5c715f}@media(max-width:900px){.special-homes{grid-template-columns:1fr;padding:70px 7vw}.home-scroller{max-width:700px}.trade-gallery{grid-template-columns:repeat(5,150px);overflow-x:auto;padding-bottom:6px}.trade-gallery button{min-width:145px}.trade-gallery img{height:104px}}@media(max-width:600px){.path-picker{grid-template-columns:1fr;max-width:100%}.hero-copy{padding-top:54px}.special-homes{padding:60px 7vw}.home-scroller{display:flex;overflow:auto;margin-right:-7vw;padding-right:7vw}.home-tile{min-width:220px;height:255px}.home-main{min-width:260px}.trade-gallery{margin-right:-7vw}.rank-explainer{grid-template-columns:1fr 1fr}.space-choices{grid-template-columns:1fr 1fr}.space-choices button:last-child{display:none}}
+
+/* Header profile icon & state */
+.user-profile-btn{display:inline-flex;align-items:center;gap:9px;background:#f0f5ec;border:1px solid #c9d8c3;padding:4px 12px 4px 6px;border-radius:24px;cursor:pointer;transition:all .2s ease;font-family:var(--sans)}
+.user-profile-btn:hover{background:#e4f2bc;border-color:#a8c998;transform:translateY(-1px);box-shadow:0 4px 12px rgba(18,38,31,0.1)}
+.user-profile-btn img{width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid white}
+.user-profile-btn .user-info{display:flex;flex-direction:column;text-align:left;line-height:1.15}
+.user-profile-btn .user-name{font-size:12px;font-weight:700;color:var(--ink)}
+.user-profile-btn .user-rank{font-size:9px;font-family:var(--mono);font-weight:600;color:#4a6759}
+.user-profile-btn .status-dot{width:8px;height:8px;border-radius:50%;background:#27ae60;box-shadow:0 0 0 2px #27ae6040}
+
+/* Photo Upload Box */
+.photo-upload-box{display:flex;align-items:center;gap:14px;padding:12px;background:#f8faf5;border:2px dashed #cfdacb;border-radius:10px;margin-bottom:14px;transition:border-color .2s}
+.photo-upload-box:hover{border-color:#5b876e}
+.photo-preview{width:60px;height:60px;border-radius:50%;background:#e3ebd8;display:grid;place-items:center;overflow:hidden;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.1);flex-shrink:0}
+.photo-preview img{width:100%;height:100%;object-fit:cover}
+.photo-upload-btn{display:inline-block;padding:7px 13px;background:var(--ink);color:white;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;transition:.2s}
+.photo-upload-btn:hover{background:#25473a}
+.photo-hint{font-size:11px;color:#6d7d74;margin-top:4px}
+
+/* Aadhaar verification badge */
+.input-with-badge{position:relative;display:flex;align-items:center}
+.input-with-badge input{width:100%;padding-right:90px}
+.verify-status-badge{position:absolute;right:8px;font-size:10px;font-family:var(--mono);padding:3px 7px;border-radius:4px;background:#e1f5e8;color:#1e7e34;font-weight:600;pointer-events:none;display:inline-flex;align-items:center;gap:3px}
+
+/* Worker Dashboard */
+.worker-dash{display:flex;flex-direction:column;gap:18px}
+.worker-dash-header{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-bottom:16px;border-bottom:1px solid #e5ebe1}
+.worker-dash-left{display:flex;align-items:center;gap:14px}
+.worker-dash-left img{width:68px;height:68px;border-radius:50%;object-fit:cover;border:3px solid white;box-shadow:0 4px 14px rgba(0,0,0,0.12)}
+.worker-dash-title h2{font-size:22px;margin:0 0 3px}
+.worker-dash-title p{margin:0;font-size:12px;color:#5e7066}
+.availability-switch{display:flex;align-items:center;gap:7px;padding:7px 13px;background:#eaf6ea;border:1px solid #b7deb6;border-radius:20px;cursor:pointer;font-size:11px;font-weight:700;color:#195f2a}
+.availability-switch.busy{background:#fbf0e8;border-color:#f3c7a8;color:#8c3f11}
+.availability-switch .dot{width:8px;height:8px;border-radius:50%;background:#27ae60}
+.availability-switch.busy .dot{background:#e67e22}
+
+/* Rank XP Progress Card */
+.rank-progress-card{background:linear-gradient(135deg,#12261f,#1b3a2e);color:white;padding:18px;border-radius:12px;box-shadow:0 10px 25px rgba(18,38,31,0.15)}
+.rank-progress-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.rank-current{display:flex;align-items:center;gap:8px}
+.rank-current .rank-tag{font:700 11px var(--mono);padding:4px 9px;border-radius:4px;letter-spacing:.05em}
+.rank-tag.diamond{background:#294a80;color:#bce7ff}
+.rank-tag.gold{background:#b78127;color:#fff1bc}
+.rank-tag.silver{background:#4a5c53;color:#e1e9e4}
+.rank-tag.pro,.rank-tag.vip{background:#f26c51;color:white}
+.xp-bar-bg{height:9px;background:rgba(255,255,255,0.2);border-radius:6px;overflow:hidden;margin:8px 0}
+.xp-bar-fill{height:100%;background:linear-gradient(90deg,#d6f35d,#a8ea3f);border-radius:6px;transition:width .6s ease}
+.xp-factors{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.15);font-size:11px}
+.xp-factors div{background:rgba(255,255,255,0.06);padding:7px;border-radius:6px;text-align:center}
+.xp-factors b{display:block;font-size:13px;color:#d6f35d;margin-bottom:2px}
+.xp-factors small{color:#bed0c5;font-size:10px}
+
+/* Dashboard Tabs */
+.dash-tabs{display:flex;gap:8px;border-bottom:1px solid #dfe5dc;padding-bottom:8px}
+.dash-tab-btn{background:none;border:0;padding:7px 14px;font-size:12px;font-weight:600;color:#607368;border-radius:6px;cursor:pointer;transition:.2s}
+.dash-tab-btn.active{background:var(--ink);color:white}
+
+/* Job Feed Card in Dashboard */
+.job-feed-list{display:flex;flex-direction:column;gap:10px;max-height:260px;overflow-y:auto}
+.job-feed-card{display:flex;align-items:center;justify-content:space-between;padding:12px;background:#fbfdf9;border:1px solid #dce4d8;border-radius:9px;gap:12px;transition:.2s}
+.job-feed-card:hover{background:#f3f8ec;border-color:#a7c59a}
+.job-feed-info h4{margin:0 0 3px;font-size:13px;color:var(--ink)}
+.job-feed-info p{margin:0 0 3px;font-size:11px;color:#55675d}
+.job-feed-info small{font-size:10px;color:#798b81;font-family:var(--mono)}
+.job-feed-action{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.job-feed-action b{font-size:13px;color:#1f4f39}
+.job-apply-btn{padding:6px 12px;background:var(--ink);color:#d6f35d;border:0;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s}
+.job-apply-btn:hover{background:#254b3c;transform:scale(1.02)}
+.job-apply-btn.accepted{background:#27ae60;color:white;cursor:default}
+
+/* Reviews List */
+.reviews-grid{display:flex;flex-direction:column;gap:9px}
+.review-item{background:#f6f9f3;padding:10px 12px;border-radius:8px;border-left:3px solid #27ae60}
+.review-item-top{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px}
+.review-item p{margin:0;font-size:11px;color:#4f6057;font-style:italic}
+
+/* Live Camera Box */
+.camera-box{margin:12px 0;background:#11261f;padding:12px;border-radius:10px;text-align:center;color:white}
+.camera-video{width:100%;max-width:280px;height:210px;object-fit:cover;border-radius:8px;border:2px solid #d6f35d;transform:scaleX(-1);background:#000}
+.camera-actions{display:flex;justify-content:center;gap:10px;margin-top:10px}
+.camera-btn{padding:8px 16px;border-radius:6px;font-weight:700;font-size:12px;cursor:pointer;border:0}
+.camera-btn-capture{background:#d6f35d;color:#12261f}
+.camera-btn-cancel{background:#385246;color:#e8f2ec}
+
+/* Modal sizing safeguard to prevent zoom or oversized layout */
+html,body{overflow-x:hidden;max-width:100vw}
+.modal-panel{width:min(560px,94vw)!important;max-height:86vh!important;padding:28px 24px!important}
+@media(max-width:600px){.modal-panel{padding:20px 16px!important}}
+
+/* Location Autocomplete & Pincode Suggestions */
+.location-input-wrap{position:relative;display:flex;flex-direction:column;gap:6px;z-index:9000}
+.pincode-resolved-tag{display:none;align-items:center;gap:6px;background:#e8f6ec;border:1px solid #bce6c6;color:#185a2b;padding:7px 11px;border-radius:6px;font-size:11px;font-weight:600}
+.pincode-resolved-tag.active{display:flex}
+.city-suggestions-dropdown{position:absolute;top:100%;left:0;right:0;z-index:99999;background:#ffffff;border:1.5px solid #204c38;border-radius:9px;box-shadow:0 18px 45px rgba(0,0,0,0.3);max-height:230px;overflow-y:auto;display:none;margin-top:5px}
+.city-suggestion-item{padding:9px 13px;border-bottom:1px solid #edf2eb;cursor:pointer;display:flex;align-items:center;gap:10px;font-size:12px;transition:background .15s}
+.city-suggestion-item:last-child{border-bottom:0}
+.city-suggestion-item:hover{background:#eff7d5;color:#12261f}
+.city-suggestion-item b{color:var(--ink);font-size:13px}
+.city-suggestion-item small{color:#556b60;margin-left:auto;font-size:10px;font-family:var(--mono)}
+.city-suggestion-type{font-size:9px;padding:2px 6px;border-radius:3px;background:#e2ece4;color:#28573d;font-weight:700;margin-right:6px}
+
+/* Large responsive map for worker registration */
+.reg-map-large{height:260px;width:100%;border-radius:10px;border:1.5px solid #cfdad0;margin-top:10px;box-shadow:0 4px 14px rgba(0,0,0,0.06);position:relative;z-index:1}
+
+/* Form validation & Error feedback */
+.input-error{border-color:#e53e3e !important;background:#fff8f8 !important;outline:2px solid rgba(229,62,62,0.2) !important}
+.worker-form-error-banner{display:none;align-items:center;gap:8px;background:#fef2f2;border:1.5px solid #f87171;color:#991b1b;padding:10px 14px;border-radius:8px;font-size:12px;font-weight:600;margin-bottom:14px;animation:shake 0.3s ease-in-out}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+
+
