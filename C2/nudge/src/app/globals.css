@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #F8FAFC;
+    --foreground: #172033;
+    --surface: #FFFFFF;
+    --surface-secondary: #F1F5F9;
+    --card: #FFFFFF;
+    --card-foreground: #172033;
+    --primary: #2563EB;
+    --primary-foreground: #FFFFFF;
+    --secondary: #F1F5F9;
+    --secondary-foreground: #172033;
+    --muted: #F1F5F9;
+    --muted-foreground: #64748B;
+    --border: #E2E8F0;
+    --input: #E2E8F0;
+    --ring: #2563EB;
+  }
+
+  .dark {
+    --background: #101114;
+    --foreground: #F1F5F9;
+    --surface: #17191E;
+    --surface-secondary: #20232A;
+    --card: #17191E;
+    --card-foreground: #F1F5F9;
+    --primary: #7AA2FF;
+    --primary-foreground: #101114;
+    --secondary: #20232A;
+    --secondary-foreground: #F1F5F9;
+    --muted: #20232A;
+    --muted-foreground: #9CA3AF;
+    --border: #30343D;
+    --input: #30343D;
+    --ring: #7AA2FF;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    antialiased: true;
+  }
+}
+
+/* Base custom classes to match design system tokens */
+.bg-background { background-color: var(--background); }
+.text-foreground { color: var(--foreground); }
+.bg-surface { background-color: var(--surface); }
+.bg-card { background-color: var(--card); }
+.text-card-foreground { color: var(--card-foreground); }
+.bg-secondary { background-color: var(--secondary); }
+.text-secondary-foreground { color: var(--secondary-foreground); }
+.text-muted-foreground { color: var(--muted-foreground); }
+.border-border { border-color: var(--border); }
+.border-input { border-color: var(--input); }
+.bg-primary { background-color: var(--primary); }
+.text-primary { color: var(--primary); }
+.text-primary-foreground { color: var(--primary-foreground); }
